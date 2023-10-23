@@ -15,7 +15,6 @@ Please note that the server code does not provide protections against directory 
 - `http_server.c`: This is where the main server functionality is implemented.
 - `http_client.c`: This contains a simple client that is able to send HTTP GET requests and print server's response.
 - `thread_pool.c`/`thread_pool.h`: These files contain the code relating to the thread pool used by the server.
-- `thread_pool_test.c`: This contains test cases for the thread pool.
 - `index.html`: A simple test HTML page that the server can serve.
 - `Makefile`: A simple Makefile to compile the server, client, and tests.
 
@@ -26,8 +25,6 @@ First, compile all the required files by running `make`. This will create the ex
 You can then run the server by calling `./server`. This will start the server, which will be ready to accept incoming connections and serve the test index.html file.
 
 You can run the client by calling `./client <ip> <port>`, where `<ip>` is the IP address where the server is running and `<port>` is the port number (server is set to run on port 8080 by default), to ask for '/index.html' from the server and print out server's response.
-
-You can run the thread pool tests by calling `./tests`. This will run a suite of automated tests on the thread pool module.
 
 ## Requirements
 
