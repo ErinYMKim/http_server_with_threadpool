@@ -32,6 +32,7 @@ void handle_request(void *socket_desc)
         printf("Failed to parse HTTP request\n");
         close(sock);
         free(socket_desc);
+        return;
     }
 
     char data[MAX_BUFFER_SIZE];
@@ -71,6 +72,12 @@ int main(int argc, char *argv[])
     job_capacity = atoi(argv[2]);
 
     socket_desc = socket(AF_INET, SOCK_STREAM, 0);
+    if(socket_desc < 0)
+    {
+        perror("socket creation failed");
+        exit(1);
+    }
+
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
     server.sin_port = htons(PORT);
@@ -78,9 +85,16 @@ int main(int argc, char *argv[])
     if(bind(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0)
     {
         perror("bind failed");
+        close(socket_desc);
+        exit(1);
     }
 
-    listen(socket_desc, MAX_CONN_QUEUE);
+    if(listen(socket_desc, MAX_CONN_QUEUE) < 0)
+    {
+        perror("listen failed");
+        close(socket_desc);
+        exit(1);
+    }
 
     // Initialize thread pool
     thread_pool_t* pool = thread_pool_create(num_threads, job_capacity);
